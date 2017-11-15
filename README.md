@@ -1,2 +1,2 @@
-# electron_typescript_go
-Electron + Typescript + Golang example
+# Electron + Typescript + Golang
+This is hobby project.

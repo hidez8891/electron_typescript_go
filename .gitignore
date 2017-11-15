@@ -32,7 +32,8 @@ bower_components
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
-# Dependency directories
+# Dependency config & directories
+package-lock.json
 node_modules/
 jspm_packages/
 
@@ -57,3 +58,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# build / deploy
+build
+release
