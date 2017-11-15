@@ -1,0 +1,24 @@
+{
+  "name": "go_electron_example",
+  "version": "1.0.0",
+  "description": "electron + typescript + golang example",
+  "main": "build/host/app.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "npm run build:tsc",
+    "build:tsc": "tsc --outDir build",
+    "build:go": "go build -o build/web/web.exe web/main.go",
+    "deploy": "electron-packager . --overwrite --platform=win32 --asar=false --prune=true --out=release"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.7.9",
+    "websocket": "^1.0.25"
+  },
+  "devDependencies": {
+    "@types/websocket": "0.0.34",
+    "electron-packager": "^9.1.0",
+    "typescript": "^2.6.1"
+  }
+}
