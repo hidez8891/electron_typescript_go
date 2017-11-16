@@ -14,7 +14,7 @@ export class Socket {
     private connect: connection;
 
     constructor(port: number) {
-        this.url = `ws://localhost:${port}/api`
+        this.url = `ws://localhost:${port}/api/`
         this.event = new EventEmitter;
         this.client = new client();
         this.setConnectEvent();
@@ -59,6 +59,7 @@ export class Socket {
     private setIOEvent() {
         this.connect.on('message', (data) => {
             if (data.type !== "utf8") {
+                console.log(`socket: receive unsupport type ${data.type}`);
                 return; // unsupport
             }
 
@@ -75,6 +76,7 @@ export class Socket {
         });
 
         if (this.connect != null) {
+            console.log(`socket: send message ${msg}`);
             this.connect.send(msg);
         }
     }

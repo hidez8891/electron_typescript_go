@@ -40,6 +40,9 @@ function startWebApp(host_port: number) {
     webproc = spawn(binpath, params);
 
     webproc.stdout.on('data', (data) => {
-        console.log(`web process: ${data.toString()}`);
+        console.log(`web process stdout: ${data.toString()}`);
+    });
+    webproc.stderr.on('data', (data) => {
+        console.log(`web process stderr: ${data.toString()}`);
     });
 }

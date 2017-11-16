@@ -49,7 +49,9 @@ func (s *Socket) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 		return
 	}
-	defer ws.Close()
+
+	go s.sender(ws)
+	go s.receiver(ws)
 }
 
 func (s *Socket) sender(ws *websocket.Conn) {
