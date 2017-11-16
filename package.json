@@ -5,10 +5,12 @@
   "main": "build/host/app.js",
   "scripts": {
     "start": "electron .",
-    "build": "npm run build:tsc",
+    "build": "npm run build:tsc && npm run build:go",
     "build:tsc": "tsc --outDir build",
-    "build:go": "go build -o build/web/web.exe web/main.go",
-    "deploy": "electron-packager . --overwrite --platform=win32 --asar=false --prune=true --out=release"
+    "build:go": "run-script-os",
+    "build:go:win32": "cd web && go build -o ../build/web/web.exe",
+    "deploy": "run-script-os",
+    "deploy:win32": "electron-packager . --overwrite --platform=win32 --prune=true --out=release"
   },
   "author": "",
   "license": "MIT",
@@ -19,6 +21,7 @@
   "devDependencies": {
     "@types/websocket": "0.0.34",
     "electron-packager": "^9.1.0",
+    "run-script-os": "^1.0.2",
     "typescript": "^2.6.1"
   }
 }
