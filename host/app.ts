@@ -36,8 +36,9 @@ function startWebApp(host_port: number) {
         binfile += ".exe";
     }
 
-    const binpath = path.join(__dirname, '../web', binfile);
-    webproc = spawn(binpath, params);
+    const bindir = path.join(__dirname, '../web');
+    const binpath = path.join(bindir, binfile);
+    webproc = spawn(binpath, params, { "cwd": bindir });
 
     webproc.stdout.on('data', (data) => {
         console.log(`web process stdout: ${data.toString()}`);

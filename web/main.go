@@ -26,6 +26,7 @@ func main() {
 	setSocketAPI(apiServer, shutdown)
 
 	http.Handle("/api/", apiServer)
+	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
 	http.HandleFunc("/", webServer)
 
 	addr := fmt.Sprintf("localhost:%d", port)
@@ -47,5 +48,9 @@ func main() {
 }
 
 func webServer(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Not Found", 404)
+	if r.URL.Path == "/" {
+		http.ServeFile(w, r, "view/index.html")
+	} else {
+		http.ServeFile(w, r, "view/"+r.URL.Path[1:])
+	}
 }
