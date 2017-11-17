@@ -63,6 +63,7 @@ export class Socket {
                 return; // unsupport
             }
 
+            //console.log(`socket: recv message ${data.utf8Data}`);
             let msg: Message = JSON.parse(data.utf8Data);
             this.event.emit(msg.name, ...msg.argv);
         });
@@ -76,7 +77,7 @@ export class Socket {
         });
 
         if (this.connect != null) {
-            console.log(`socket: send message ${msg}`);
+            //console.log(`socket: send message ${msg}`);
             this.connect.send(msg);
         }
     }

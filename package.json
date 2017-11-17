@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^1.7.9",
+    "jquery": "^3.2.1",
     "websocket": "^1.0.25"
   },
   "devDependencies": {

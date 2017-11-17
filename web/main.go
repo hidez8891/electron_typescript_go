@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"./socket"
 )
@@ -26,8 +27,10 @@ func main() {
 	setSocketAPI(apiServer, shutdown)
 
 	http.Handle("/api/", apiServer)
-	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
+	http.Handle("/assets/", http.FileServer(http.Dir("./")))
 	http.HandleFunc("/", webServer)
+
+	setupSampleEvent(apiServer)
 
 	addr := fmt.Sprintf("localhost:%d", port)
 	srv := &http.Server{Addr: addr}
@@ -53,4 +56,16 @@ func webServer(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.ServeFile(w, r, "view/"+r.URL.Path[1:])
 	}
+}
+
+func setupSampleEvent(sk *socket.Socket) {
+	go func() {
+		t := time.NewTicker(1 * time.Second)
+		for {
+			select {
+			case <-t.C:
+				sk.Emit("now-time", time.Now().String())
+			}
+		}
+	}()
 }

@@ -3,6 +3,7 @@ import { spawn, ChildProcess } from "child_process";
 import { app, BrowserWindow } from "electron";
 import * as os from "os";
 import * as path from "path";
+import setup_sample from "./sample";
 import { Socket } from "./socket";
 
 let window: BrowserWindow;
@@ -26,6 +27,8 @@ app.on('ready', () => {
     window.on('closed', () => {
         window = null;
     });
+
+    setup_sample(socket, window);
 });
 
 function startWebApp(host_port: number) {
