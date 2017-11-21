@@ -1,5 +1,6 @@
 import { client, connection } from "websocket";
 import { EventEmitter } from "events";
+import { BrowserView, BrowserWindow } from "electron";
 
 interface Message {
     name: string;
@@ -12,9 +13,11 @@ export class Socket {
     private event: EventEmitter;
     private client: client;
     private connect: connection;
+    private window: BrowserWindow;
 
-    constructor(port: number) {
+    constructor(port: number, window: BrowserWindow) {
         this.url = `ws://localhost:${port}/api/`
+        this.window = window;
         this.event = new EventEmitter;
         this.client = new client();
         this.setConnectEvent();
@@ -65,7 +68,9 @@ export class Socket {
 
             //console.log(`socket: recv message ${data.utf8Data}`);
             let msg: Message = JSON.parse(data.utf8Data);
-            this.event.emit(msg.name, ...msg.argv);
+            if (!this.event.emit(msg.name, ...msg.argv)) {
+                this.window.webContents.send(msg.name, ...msg.argv);
+            }
         });
     }
 

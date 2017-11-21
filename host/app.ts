@@ -3,7 +3,6 @@ import { spawn, ChildProcess } from "child_process";
 import { app, BrowserWindow } from "electron";
 import * as os from "os";
 import * as path from "path";
-import setup_sample from "./sample";
 import { Socket } from "./socket";
 
 let window: BrowserWindow;
@@ -14,13 +13,6 @@ app.on('ready', () => {
     let port = 48075;
     startWebApp(port);
 
-    socket = new Socket(port);
-    socket.on('connect', () => {
-        console.log("web connected");
-        api(socket, app);
-    });
-    socket.connection();
-
     let url = `http://localhost:${port}/`;
     window = new BrowserWindow({ width: 800, height: 600 });
     window.loadURL(url);
@@ -28,7 +20,12 @@ app.on('ready', () => {
         window = null;
     });
 
-    setup_sample(socket, window);
+    socket = new Socket(port, window);
+    socket.on('connect', () => {
+        console.log("web connected");
+        api(socket, app);
+    });
+    socket.connection();
 });
 
 function startWebApp(host_port: number) {
